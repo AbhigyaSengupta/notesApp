@@ -24,15 +24,16 @@ export const createTodo = async (req, res) => {
 export const getAllTodo = async (req, res) => {
     try {
         const todos = await noteSchema.find({ userId: req.userId });
-        if (!todos) {
+        if (todos.length == 0) {
             return res.status(401).json({
                 success: false,
-                message: "No todo found yet!",
+                message: "No Note found yet!",
+                todos : []
             });
         }
         return res.status(200).json({
             success: true,
-            message: "Todo fetched successfully",
+            message: "Note fetched successfully",
             todos,
         });
     } catch (e) {
@@ -51,7 +52,7 @@ export const updateTodo = async (req, res) => {
         if (!id || id === " ") {
             return res.status(401).json({
                 success: false,
-                message: "todo's id not found!",
+                message: "notes's id not found!",
             });
         }
 
@@ -69,13 +70,13 @@ export const updateTodo = async (req, res) => {
         if (!updatedData) {
             return res.status(401).json({
                 success: false,
-                message: "No todo found for update!",
+                message: "No Note found for update!",
             });
         }
 
         return res.status(200).json({
             success: true,
-            message: "Todo updated successfully!",
+            message: "Note has been updated successfully!",
             updatedData,
         });
     } catch (e) {
